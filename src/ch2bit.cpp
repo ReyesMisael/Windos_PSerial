@@ -1,23 +1,20 @@
 #include<iostream>
-#include<bitset>
-
+#include<utility>
+#include<functional>
+#include"ch2bit.h"
 using namespace std;
 
-int main() {
-	bitset<32> x(0xf0);	
-	bitset<32> y(0x0f);
-
-	char recibido;
-	const unsigned int K = ~0;
-	recibido1 = 'Z';
+PairBits bits(char recibir) {
+        unsigned int size = 4;
 	
-	bitset<32> a(recibido && x);
-	bitset<32> b(recibido && y);
-	
-	cout << "x ---->" << x << endl;	
-	cout << "y ---->" << y << endl;
+        bitset<32> x(0xf0);                     //To obtain MSB
+        bitset<32> y(0x0f);                     //TO obtain LSB
+        bitset<32> Pair(recibir);              	//Convert char reciven to bits
+        bitset<32> a(Pair & x);                 //Obtain fisrt part
+        bitset<32> b(Pair & y);                 //Obain second part
+	a = a >> size;				//Avoid unnecesary bits
 
-	cout << bitset<32> (convertion1 & x) << endl;	
-	cout << bitset<32> (convertion2 & y) << endl;		
-	cout << bitset<32> (convertion1 & x) << endl;
+        cout << "MSB--->" << a << endl;
+        cout << "LSB--->" << b << endl;
+	return {a, b};
 }
