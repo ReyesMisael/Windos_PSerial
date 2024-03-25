@@ -2,10 +2,10 @@
 #define CH2BIT_H
 #include<bitset>
 struct PairBits {
-	std::bitset<32> a;
-	std::bitset<32> b;
+	unsigned int a;
+	unsigned int b;
 };
 typedef struct PairBits PairBits;
-PairBits bits(char recibir);
+PairBits bits(char data);
 
 #endif

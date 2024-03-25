@@ -3,18 +3,17 @@
 #include<functional>
 #include"ch2bit.h"
 using namespace std;
-
-PairBits bits(char recibir) {
+PairBits bits(char data) {
         unsigned int size = 4;
-	
-        bitset<32> x(0xf0);                     //To obtain MSB
-        bitset<32> y(0x0f);                     //TO obtain LSB
-        bitset<32> Pair(recibir);              	//Convert char reciven to bits
-        bitset<32> a(Pair & x);                 //Obtain fisrt part
-        bitset<32> b(Pair & y);                 //Obain second part
+        unsigned int x = 0xf0;                     //To obtain MSB
+        unsigned int y = 0x0f;                     //TO obtain LSB
+       	
+	unsigned int a;
+	unsigned int b;
+	a = data & x;
+	b = data & y;
 	a = a >> size;				//Avoid unnecesary bits
-
-        cout << "MSB--->" << a << endl;
-        cout << "LSB--->" << b << endl;
+        //cout << "MSB--->" << a << endl;
+        //cout << "LSB--->" << b << endl;
 	return {a, b};
 }
