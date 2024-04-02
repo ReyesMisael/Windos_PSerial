@@ -55,11 +55,11 @@ int main() {
 		printf("SetCommState failed with error %d.\n",GetLastError());
 		return (3);
 	}
-	PrintCommState(serialParams);
 
 	statusSent = WriteFile(hComm, &toSend, 1, &bytessent, NULL);
 	
 	statusReceive = ReadFile(hComm, &recibido, sizeof(char), &n, NULL);
+
 	if(hComm == INVALID_HANDLE_VALUE){
 		printf("Error in opening serial port\n");
 		return (1);
@@ -70,10 +70,10 @@ int main() {
 
 	while(statusReceive && statusSent) {
 		statusSent = WriteFile(hComm, &toSend, 1, &bytessent, NULL);
-		statusReceive = ReadFile(hComm, &recibido, sizeof(char), &n, NULL);
-		printf("%x\n", (int) recibido);
+		statusReceive = ReadFile(hComm, &recibido, sizeof(char), NULL, NULL);
+		printf("%u\n", recibido);
 	}
-	printf("no se logro\n");
+	printf("Error with serial Port connnection\n");
 	CloseHandle(hComm);			//Closing the Serial Port
 	return 0;
 }
