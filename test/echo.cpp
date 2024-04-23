@@ -98,7 +98,7 @@ int main() {
 			//	printf("%i, %x\n", k, buffer[k]);
 			a = *((unsigned int*) (&buffer));		//	Tx
 			b = *((unsigned int*) (&(buffer[4])));		//	To
-			float div = (float) b/a;
+			float div = (float) a/b;
 			frequency = (float) (div*To);
 		}
 		else {
