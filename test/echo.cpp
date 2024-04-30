@@ -88,6 +88,7 @@ int main() {
 	}
 	else {
 		printf("opening serial port successful\n");
+		printf("hex,	nx(i),		no(i),		frequency,");
 	}
 
 	while(statusReceive && statusSent) {
@@ -104,10 +105,10 @@ int main() {
 		else {
 			recibido = 200;
 		}
-		printf("%016I64x  -->  ", recibido64);
-		printf("(a) %I32u  -->  ", a);
-		printf("(b) %I32u -->" , b);
-		printf(" frequency: %0.15f\n",frequency);
+		printf("%016I64x , ", recibido64);
+		printf("%I32u ,", a);
+		printf("%I32u ," , b);
+		printf("%0.15f, \n",frequency);
 	}
 	printf("Error with serial Port connnection\n");
 	CloseHandle(hComm);			//Closing the Serial Port
