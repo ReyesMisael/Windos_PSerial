@@ -33,7 +33,7 @@ int main() {
 	unsigned int recibido32;
 	//unsigned long long int recibido64;
 	//unsigned long long int recibido64_2;
-	hComm = CreateFileA("\\\\.\\COM4",		//Create a file to read and write 
+		hComm = CreateFileA("\\\\.\\COM3",		//Create a file to read and write 
 			GENERIC_READ | GENERIC_WRITE,
 			0,
 			NULL,
@@ -81,22 +81,14 @@ int main() {
 		printf("hex,nx(i),no(i),nx(i) - nx(i-1),no(i) - no(i-1),Mt\n");
 	}
 
-	printf("%d    %d",statusReceive, statusSent);
 	while(statusReceive && statusSent) {
-		//statusReceive = ReadFile(hComm, &buffer[2], 2*sizeof(char), &n, NULL);
 		statusReceive = ReadFile(hComm,&buffer2,sizeof(uint),&n,NULL);
-		printf("%lu",n);
 		if(n == 4) {
 			recibido32 = *(unsigned int*) (&buffer2);
-			printf("%x",recibido32); 
-			nx = (unsigned) recibido32 & 0xFFFF; 		//lsb
-			no = (unsigned) recibido32 >> 16;		//msb
-			//nx = *((unsigned int*)(&buffer2));
-			//no = *((unsigned int*)(&buffer2[2]));
-			printf("%d    %d", (uint) GrayToBinary2(nx),(uint) GrayToBinary2(no));
-			//printf("%d - %d\n", (uint) GrayToBinary(buffer2[3]), (uint) GrayToBinary(buffer2[2]));
-			//printf("%d - %d\n", (uint) GrayToBinary(buffer2[1]), (uint) GrayToBinary(buffer2[0]));
-			//printf("%x\n", recibido32);
+			printf("%x   ",recibido32); 
+			nx = *((unsigned int*) (&buffer2)) & 0xFFFF; 	//lsb
+			no = *((unsigned int*) (&buffer2[2]));		//msb
+			printf("%d     %d", (uint) GrayToBinary2(nx),(uint) GrayToBinary2(no));
 			printf("\n");
 		}	
 		else {

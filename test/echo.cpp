@@ -31,7 +31,7 @@ int main() {
 	unsigned long long int recibido64;
 	unsigned long long int recibido64_2;
 	printf("%u", sizeof(recibido64));
-	hComm = CreateFileA("\\\\.\\COM4",
+	hComm = CreateFileA("\\\\.\\COM3",
 			GENERIC_READ | GENERIC_WRITE,
 			0,
 			NULL,
