@@ -6,7 +6,7 @@ using namespace std;
 PairBits bits(char data) {
         unsigned int size = 4;
         unsigned int x = 0xf0;                     //To obtain MSB
-        unsigned int y = 0x0f;                     //TO obtain LSB
+        unsigned int y = 0x0f;                     //To obtain LSB
        	
 	unsigned int a;
 	unsigned int b;
