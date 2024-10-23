@@ -19,16 +19,17 @@ void PrintCommState(DCB dcb){
 }
 int main() {
 	char toSend = ' ';							//Start to send information trigger
-	unsigned int n = 16, mask;							//number of bits of each counter 
+	unsigned int n = 16, mask;						//number of bits of each counter 
 	int k;									
-	HANDLE hComm;
+	HANDLE hComm;					
 	DCB serialParams;
-	unsigned char buffer[2];						//
+	bool select_code = true;						//Select true if data received is gray code
+	unsigned char buffer[2];						
 	long unsigned int bytessend, bytesread;
 	long long unsigned int written;
 	unsigned int number;									
 	BOOL statusReceive, statusSend, fsuccess;
-	hComm = CreateFileA("\\\\.\\COM4",
+			hComm = CreateFileA("\\\\.\\COM3",
 			GENERIC_READ | GENERIC_WRITE,
 			0,
 			NULL,
@@ -43,7 +44,7 @@ int main() {
 		return (3);
 
 	}
- 	PrintCommState(serialParams);						//print current state of serial port
+ 	//PrintCommState(serialParams);						//print current state of serial port
  	serialParams.BaudRate = CBR_115200;
 	serialParams.ByteSize = 8;
 	serialParams.Parity = NOPARITY;
@@ -53,7 +54,7 @@ int main() {
 		printf("SetCommState failed with error %d.\n", GetLastError());
 		return (2);
 	}
-	PrintCommState(serialParams);					
+	//PrintCommState(serialParams);					
 	statusSend = WriteFile(hComm, &toSend, 1, &bytessend, NULL);		//FPGA trigger to start to send data
 	sleep(2);								//Wait 
 	statusReceive = ReadFile(hComm, &buffer, 2*sizeof(char), &bytesread, NULL);
@@ -62,21 +63,28 @@ int main() {
 		return (1);
 	}
 	else {
-		printf("opening serial port successful\n");
-		printf("No(i)	Nx(i))     |	Period\n");
+		//printf("opening serial port successful\n");
+		printf("hex_nx,nx(i),hex_no(i),no(i),\n");
 	}
 	k = 0;
 	mask = gen_mask(n);
 	while(statusReceive && statusSend) {
 		statusReceive = ReadFile(hComm, &buffer, 2*sizeof(char), &bytesread, NULL);
 		if (bytesread == 2) {
-			invertArray(buffer, 2);
 			number = *(unsigned int*) (&buffer);	
-			number &= mask;	
-			printf("%x	%d	",number,GrayToBinary(number));
+			number &= mask;					//true if source code is binary false to decode gray counter 
+			if (select_code == false) {
+				printf("%x,%d,",number,number);
+				
+			}else{
+				invertArray(buffer, 2);
+				number = *(unsigned int*) (&buffer);	
+				number &= mask;				//true if source code is binary false to decode gray counter 
+				printf("%x,%d,",number,GrayToBinary(number));
+			}
+			k++;
 			if (k%2==0) printf("\n"); 		
 		}
-		k++;
 	}
 	printf("Connection error\n");
 	CloseHandle(hComm);			//Closing the Serial Port
